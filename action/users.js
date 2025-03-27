@@ -2,6 +2,7 @@
 
 import { createClient } from "../auth/server";
 import { handleError } from "../lib/utils.ts";
+import { prisma } from "@/db/prisma";
 
 export const loginAction = async (email, password) => {
   try {
@@ -37,6 +38,12 @@ export const signupAction = async (email, password) => {
     if (!userId) throw new Error("Error signing up");
 
     // Add user to database
+    await prisma.user.create({
+      data: {
+        id: userId,
+        email,
+      },
+    });
 
     return { errorMessage: null };
   } catch (error) {

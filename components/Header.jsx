@@ -3,19 +3,23 @@ import ModeToggle from "./ui/mode-toggle";
 import { Button } from "./ui/button";
 import LogoutButton from "./logout-button";
 import Link from "next/link";
-import {getUser}  from "@/auth/server"
+import { getUser } from "@/auth/server";
 
 const Header = async () => {
   const user = await getUser();
+  console.log("user:::", user?.email);
   return (
     <header className="w-full h-16 border border-x-0 border-t-0 backdrop-blur-2xl bg-popover">
-      <div className="container mx-auto h-full flex items-center justify-between">
+      <div className="container mx-auto px-4 h-full flex items-center justify-between">
         <Link href="/" className="text-2xl font-bold">
           Virstaf Church
         </Link>
-        <div className="flex gap-3">
+        <div className="flex gap-3 h-full items-center justify-center">
           {user ? (
-            <LogoutButton />
+            <>
+              {user.email}
+              <LogoutButton />
+            </>
           ) : (
             <>
               <Button asChild variant="outline" className="hidden sm:block">

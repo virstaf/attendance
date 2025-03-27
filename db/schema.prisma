@@ -1,0 +1,181 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  SUPER_ADMIN
+  REGIONAL_ADMIN
+  BRANCH_ADMIN
+  SUBGROUP_LEADER
+  MEMBER
+}
+
+model User {
+  id            String     @id @default(cuid())
+  email         String     @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  phone         String?
+  roles         Role[]
+  branchAccess  Branch[]   @relation("BranchAccess")
+  subgroupAccess Subgroup[] @relation("SubgroupAccess")
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Branch {
+  id          String     @id @default(cuid())
+  name        String
+  location    String
+  description String?
+  members     Member[]
+  subgroups   Subgroup[]
+  events      Event[]
+  services    Service[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  users       User[]     @relation("BranchAccess")
+}
+
+model Subgroup {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  branch      Branch     @relation(fields: [branchId], references: [id])
+  branchId    String
+  members     Member[]
+  leaders     User[]     @relation("SubgroupAccess")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Member {
+  id          String     @id @default(cuid())
+  firstName   String
+  lastName    String
+  email       String?
+  phone       String?
+  birthDate   DateTime?
+  joinDate    DateTime   @default(now())
+  branch      Branch     @relation(fields: [branchId], references: [id])
+  branchId    String
+  subgroups   Subgroup[]
+  attendances Attendance[]
+//   donations   Donation[]
+  status      MemberStatus @default(ACTIVE)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum MemberStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+model Event {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  location    String
+  branch      Branch     @relation(fields: [branchId], references: [id])
+  branchId    String
+  type        EventType
+  attendees   Attendance[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum EventType {
+  REGULAR_SERVICE
+  SPECIAL_SERVICE
+  FELLOWSHIP
+  MEETING
+  HOLIDAY
+}
+
+model Service {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  schedule    String     // Could be cron expression or recurrence rule
+  branch      Branch     @relation(fields: [branchId], references: [id])
+  branchId    String
+  attendees   Attendance[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Attendance {
+  id          String     @id @default(cuid())
+  member      Member     @relation(fields: [memberId], references: [id])
+  memberId    String
+  event       Event?     @relation(fields: [eventId], references: [id])
+  eventId     String?
+  service     Service?   @relation(fields: [serviceId], references: [id])
+  serviceId   String?
+  status      AttendanceStatus
+  date        DateTime
+  notes       String?
+  // recordedBy  User       @relation(fields: [recordedById], references: [id])
+  recordedById String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+// model Donation {
+//   id          String     @id @default(cuid())
+//   amount      Float
+//   date        DateTime
+//   member      Member     @relation(fields: [memberId], references: [id])
+//   memberId    String
+//   branch      Branch     @relation(fields: [branchId], references: [id])
+//   branchId    String
+//   type        DonationType
+//   recordedBy  User       @relation(fields: [recordedById], references: [id])
+//   recordedById String
+//   createdAt   DateTime   @default(now())
+//   updatedAt   DateTime   @updatedAt
+// }
+
+// enum DonationType {
+//   TITHE
+//   OFFERING
+//   DONATION
+//   PLEDGE
+// }
+
+model Report {
+  id          String     @id @default(cuid())
+  title       String
+  type        ReportType
+  parameters  Json?
+  // createdBy   User       @relation(fields: [createdById], references: [id])
+  createdById String
+  // branch      Branch?    @relation(fields: [branchId], references: [id])
+  branchId    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum ReportType {
+  ATTENDANCE_TREND
+  MEMBER_ACTIVITY
+//   GIVING_REPORT
+  SUBGROUP_ANALYSIS
+}

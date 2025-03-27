@@ -14,12 +14,14 @@ import { loginAction, signupAction } from "../action/users";
 const AuthForm = ({ type }) => {
   const isLoginForm = type === "login";
   const router = useRouter();
-  const { isPending, startTransition } = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (formData) => {
     startTransition(async () => {
-      const email = formData.get("email");
-      const password = formData.get("password");
+      const email = await formData.get("email");
+      const password = await formData.get("password");
+
+      // console.log(email, password);
 
       let errorMessage;
       let title;
@@ -37,7 +39,11 @@ const AuthForm = ({ type }) => {
 
       if (!errorMessage) {
         toast.success(title, { description });
-        router.replace("/");
+        if (isLoginForm) {
+          router.replace("/");
+        } else {
+          router.replace("/login");
+        }
       } else {
         toast.error("Error", { description: errorMessage });
       }
