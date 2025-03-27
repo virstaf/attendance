@@ -15,7 +15,7 @@ const Dashboard = () => {
               key={index}
               title={item.title}
               description={item.description}
-              value={item.value}
+              value={parseInt(item.value).toLocaleString()}
             ></DashCard>
           ))}
         </div>
