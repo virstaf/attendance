@@ -6,8 +6,10 @@ import { CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { loginAction, signupAction } from "../action/users";
 
 const AuthForm = ({ type }) => {
   const isLoginForm = type === "login";
@@ -15,7 +17,31 @@ const AuthForm = ({ type }) => {
   const { isPending, startTransition } = useTransition();
 
   const handleSubmit = (formData) => {
-    console.log(formData);
+    startTransition(async () => {
+      const email = formData.get("email");
+      const password = formData.get("password");
+
+      let errorMessage;
+      let title;
+      let description;
+
+      if (isLoginForm) {
+        errorMessage = loginAction(email, password).errorMessage;
+        title = "Login Successful";
+        description = "You have been successfully logged in";
+      } else {
+        errorMessage = signupAction(email, password).errorMessage;
+        title = "Signup Successful";
+        description = "Check your email for confirmation link";
+      }
+
+      if (!errorMessage) {
+        toast.success(title, { description });
+        router.replace("/");
+      } else {
+        toast.error("Error", { description: errorMessage });
+      }
+    });
   };
 
   return (
@@ -44,13 +70,13 @@ const AuthForm = ({ type }) => {
           />
         </div>
 
-        <Button>
+        <Button className="my-4">
           {isPending ? (
             <Loader2 className="animate-spin" />
           ) : isLoginForm ? (
             "Login"
           ) : (
-            "Register"
+            "Signup"
           )}
         </Button>
       </CardContent>
