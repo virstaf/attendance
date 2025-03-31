@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Poppins, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 
 const dmSans = DM_Sans({
@@ -36,9 +34,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* <Header /> */}
           {children}
-          {/* <Footer /> */}
           <Toaster />
         </ThemeProvider>
       </body>
