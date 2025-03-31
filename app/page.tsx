@@ -1,9 +1,8 @@
-import Dashboard from "@/components/Dashboard";
-
 export default function Home() {
   return (
-    <>
-      <Dashboard />
-    </>
+    <div className="min-h-[calc(100vh-64px)] items-center justify-center">
+      {/* <Dashboard /> */}
+      <h3>Landing Page... </h3>
+    </div>
   );
 }

@@ -7,13 +7,11 @@ import { getUser } from "@/auth/server";
 
 const Header = async () => {
   const user = await getUser();
-  console.log("user:::", user?.email);
+  const pageHeader = "Dashboard";
   return (
-    <header className="w-full h-16 border border-x-0 border-t-0 backdrop-blur-2xl bg-popover">
+    <header className="w-full sticky top-0 h-16 border border-x-0 border-t-0 backdrop-blur-2xl bg-popover">
       <div className="container mx-auto px-4 h-full flex items-center justify-between">
-        <Link href="/" className="text-2xl font-bold">
-          Virstaf Church
-        </Link>
+        {pageHeader}
         <div className="flex gap-3 h-full items-center justify-center">
           {user ? (
             <>
