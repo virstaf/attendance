@@ -2,6 +2,7 @@
 
 import { menuItems } from "@/lib/data";
 import { useSidebar } from "@/components/ui/sidebar";
+import LogoutButton from "@/components/logout-button";
 
 import {
   Sidebar,
@@ -59,7 +60,11 @@ const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarMenuItem>
+          <LogoutButton />
+        </SidebarMenuItem>
+      </SidebarFooter>
     </Sidebar>
   );
 };
