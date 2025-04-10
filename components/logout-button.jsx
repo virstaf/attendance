@@ -9,16 +9,15 @@ import { logoutAction } from "../action/users";
 
 const LogoutButton = () => {
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
 
   const router = useRouter();
 
   const handleLogout = async () => {
     setLoading(true);
 
-    const errorMessage = await logoutAction();
+    const errorMessage = await logoutAction().errorMessage;
 
-    if (!errorMessage) {
+    if (errorMessage === null) {
       toast.success("Logged out", {
         description: "You've been logged out successfully",
       });

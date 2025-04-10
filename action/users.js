@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "../auth/server.js";
+import { createClient } from "@/lib/supabase/server";
 import { handleError } from "../lib/utils.ts";
 
 export const loginAction = async (email, password) => {

@@ -1,6 +1,15 @@
+import { getUser } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const userObject = await getUser();
+
+  if (!userObject) {
+    redirect("/login");
+  }
+  redirect("/home");
+
   return (
     <div className="min-h-[calc(100vh-64px)] items-center justify-center">
       {/* <Dashboard /> */}

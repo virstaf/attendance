@@ -3,7 +3,7 @@ import ModeToggle from "./ui/mode-toggle";
 import { Button } from "./ui/button";
 import LogoutButton from "./logout-button";
 import Link from "next/link";
-import { getUser } from "@/auth/server";
+import { getUser } from "@/lib/supabase/server";
 
 const Header = async () => {
   const user = await getUser();

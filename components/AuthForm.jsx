@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useTransition, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,18 +10,29 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { loginAction, signupAction } from "../action/users";
+import { getUser } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 const AuthForm = ({ type }) => {
   const isLoginForm = type === "login";
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userObject = await getUser();
+
+      if (userObject) {
+        redirect("/home");
+      }
+    };
+    fetchUser();
+  }, []);
+
   const handleSubmit = (formData) => {
     startTransition(async () => {
       const email = await formData.get("email");
       const password = await formData.get("password");
-
-      // console.log(email, password);
 
       let errorMessage;
       let title;
@@ -39,11 +50,7 @@ const AuthForm = ({ type }) => {
 
       if (!errorMessage) {
         toast.success(title, { description });
-        if (isLoginForm) {
-          router.replace("/");
-        } else {
-          router.replace("/login");
-        }
+        router.replace("/home");
       } else {
         toast.error("Error", { description: errorMessage });
       }
