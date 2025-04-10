@@ -11,7 +11,7 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} All rights reserved
           </p>
         </div>
-        <Link href="https://uniiktheo.tech">Powered by UniikTheo</Link>
+        <Link href="https://uniiktheo.tech">Powered by Virstaf</Link>
       </div>
     </footer>
   );

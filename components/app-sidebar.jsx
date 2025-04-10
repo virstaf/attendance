@@ -2,7 +2,7 @@
 
 import { menuItems } from "@/lib/data";
 import { useSidebar } from "@/components/ui/sidebar";
-import LogoutButton from "@/components/logout-button";
+import UserProfile from "@/components/UserProfile";
 
 import {
   Sidebar,
@@ -63,7 +63,7 @@ const AppSidebar = () => {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <LogoutButton />
+            <UserProfile />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
