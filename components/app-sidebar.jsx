@@ -19,12 +19,19 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Book } from "lucide-react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 
 const AppSidebar = () => {
   const { open } = useSidebar();
+  const pathname = usePathname();
+  const isActive = (slug) => {
+    return slug === pathname
+      ? "bg-blue-500 text-primary dark:bg-primary/20"
+      : "text-muted-foreground";
+  };
 
   return (
     <Sidebar collapsible="icon">
@@ -48,18 +55,23 @@ const AppSidebar = () => {
       <SidebarContent className="py-8">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="flex flex-col gap-5">
+            <SidebarMenu className={`flex flex-col gap-5 `}>
               {menuItems.map((item) => (
-                <div className="" key={item.title}>
+                <div
+                  className={`rounded-l-sm rounded-r-2xl overflow-hidden  ${isActive(
+                    item.url
+                  )}`}
+                  key={item.title}
+                >
                   <Button
                     variant="outline"
                     asChild
-                    className={
-                      "py-6 w-full flex items-center justify-start border-none text-muted-foreground"
-                    }
+                    className={`py-6 w-full flex items-center justify-start border-none`}
                   >
                     <Link href={item.url}>
-                      <span className="h-8 w-8 flex items-center justify-center dark:invert dark:filter dark:brightness-0 dark:contrast-100">
+                      <span
+                        className={`"h-8 w-8 flex items-center justify-center dark:invert dark:filter dark:brightness-0 dark:contrast-100" `}
+                      >
                         <Image
                           src={item.iconSrc}
                           alt={item.title}
@@ -67,7 +79,7 @@ const AppSidebar = () => {
                           height={24}
                         />
                       </span>
-                      {open && <span>{item.title}</span>}
+                      {open && <span className={``}>{item.title}</span>}
                     </Link>
                   </Button>
                 </div>
