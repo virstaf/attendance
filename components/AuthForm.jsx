@@ -29,7 +29,7 @@ const AuthForm = ({ type }) => {
     fetchUser();
   }, []);
 
-  const handleSubmit = (formData) => {
+  const handleSubmit = async (formData) => {
     startTransition(async () => {
       const email = await formData.get("email");
       const password = await formData.get("password");
@@ -39,11 +39,11 @@ const AuthForm = ({ type }) => {
       let description;
 
       if (isLoginForm) {
-        errorMessage = loginAction(email, password).errorMessage;
+        errorMessage = await loginAction(email, password).errorMessage;
         title = "Login Successful";
         description = "You have been successfully logged in";
       } else {
-        errorMessage = signupAction(email, password).errorMessage;
+        errorMessage = await signupAction(email, password).errorMessage;
         title = "Signup Successful";
         description = "Check your email for confirmation link";
       }

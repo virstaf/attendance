@@ -1,9 +1,7 @@
 import React from "react";
 import ModeToggle from "./ui/mode-toggle";
-import { Button } from "./ui/button";
-import LogoutButton from "./logout-button";
-import Link from "next/link";
 import { getUser } from "@/lib/supabase/server";
+import UserProfile from "./UserProfile";
 
 const Header = async () => {
   const user = await getUser();
@@ -13,22 +11,8 @@ const Header = async () => {
       <div className="container mx-auto px-4 h-full flex items-center justify-between">
         {pageHeader}
         <div className="flex gap-3 h-full items-center justify-center">
-          {user ? (
-            <>
-              {user.email}
-              <LogoutButton />
-            </>
-          ) : (
-            <>
-              <Button asChild variant="outline" className="hidden sm:block">
-                <Link href="/signup">Sign up</Link>
-              </Button>
-              <Button>
-                <Link href="/login">Login</Link>
-              </Button>
-            </>
-          )}
           <ModeToggle />
+          <UserProfile />
         </div>
       </div>
     </header>

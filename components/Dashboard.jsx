@@ -4,7 +4,7 @@ import DashCard from "./DashCard";
 
 const Dashboard = () => {
   return (
-    <div className="w-full h-full min-h-[calc(100vh-65px)]">
+    <div className="w-full h-full">
       <div className="container h-full mx-auto py-8 flex flex-col justify-center items-center ">
         <div className="heading text-2xl mb-6 font-bold">
           <h2>Attendance Summary</h2>

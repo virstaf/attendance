@@ -2,6 +2,8 @@
 
 import { menuItems } from "@/lib/data";
 import { useSidebar } from "@/components/ui/sidebar";
+import LogoutButton from "@/components/logout-button";
+
 import UserProfile from "@/components/UserProfile";
 
 import {
@@ -18,6 +20,8 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { Book } from "lucide-react";
+import { Button } from "./ui/button";
+import Image from "next/image";
 
 const AppSidebar = () => {
   const { open } = useSidebar();
@@ -41,20 +45,32 @@ const AppSidebar = () => {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="py-8">
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="flex flex-col gap-5">
               {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                <div className="" key={item.title}>
+                  <Button
+                    variant="outline"
+                    asChild
+                    className={
+                      "py-6 w-full flex items-center justify-start border-none text-muted-foreground"
+                    }
+                  >
                     <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                      <span className="h-8 w-8 flex items-center justify-center dark:invert dark:filter dark:brightness-0 dark:contrast-100">
+                        <Image
+                          src={item.iconSrc}
+                          alt={item.title}
+                          width={24}
+                          height={24}
+                        />
+                      </span>
+                      {open && <span>{item.title}</span>}
                     </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                  </Button>
+                </div>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -63,7 +79,7 @@ const AppSidebar = () => {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <UserProfile />
+            <LogoutButton />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
