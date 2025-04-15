@@ -12,11 +12,9 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
-  SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -29,7 +27,7 @@ const AppSidebar = () => {
   const pathname = usePathname();
   const isActive = (slug) => {
     return slug === pathname
-      ? "bg-blue-500 text-primary dark:bg-primary/20"
+      ? "bg-blue-400 border-3 border-blue-400 dark:bg-primary/20"
       : "text-muted-foreground";
   };
 

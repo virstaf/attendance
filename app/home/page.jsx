@@ -1,6 +1,6 @@
 import React from "react";
 import Dashboard from "@/components/Dashboard";
-import DashHeader from "../../components/dash-header";
+import DashHeader from "@/components/dash-header";
 
 const page = () => {
   return (

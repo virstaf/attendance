@@ -1,10 +1,8 @@
 import React from "react";
 import ModeToggle from "./ui/mode-toggle";
-import { getUser } from "@/lib/supabase/server";
 import UserProfile from "./UserProfile";
 
 const Header = async () => {
-  const user = await getUser();
   const pageHeader = "Dashboard";
   return (
     <header className="w-full sticky top-0 h-16 border border-x-0 border-t-0 backdrop-blur-2xl bg-popover">
