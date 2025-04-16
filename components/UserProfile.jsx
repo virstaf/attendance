@@ -8,17 +8,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const mockUser = {
-  user_metadata: { email: "tunique@gmail.com", username: "unique" },
-};
-
 const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [userOpen, setUserOpen] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const userObject = (await getUser()) || mockUser;
+      const userObject = await getUser();
 
       if (!userObject) {
         redirect("/home");
