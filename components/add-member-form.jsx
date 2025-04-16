@@ -70,27 +70,25 @@ const AddMemberForm = () => {
   }); // Initialize the form with Zod validation
 
   const [isPending, startTransition] = useTransition();
-  const handleAddMember = async (formData) => {
+
+  const handleAddMember = async () => {
     startTransition(async () => {
-      const name = await formData.get("name");
-      const email = await formData.get("email");
       const dob = memberDob;
-      const branch = await formData.get("branch");
-      const role = await formData.get("role");
-      const data = { name, email, dob, branch, role };
-      console.log("formadata:::", data);
+      const formData = form.getValues();
+      const { name, email, branch, role } = formData;
+      const member = {
+        name,
+        email,
+        dob,
+        branch,
+        role,
+      };
+      console.log("Member data:", member);
 
-      let errorMessage;
-      let title;
-      let description;
-
-      if (errorMessage) {
-        toast.error(title, { description });
-      } else {
-        toast.success("Member added", { description: "Check logs" });
-      }
+      form.reset();
     });
   };
+
   return (
     <Form {...form}>
       <form
@@ -145,20 +143,6 @@ const AddMemberForm = () => {
             <DatePicker />
           </div>
 
-          {/* <FormField
-            name="dob"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="grid grid-cols-[120px_1fr] gap-2">
-                <FormLabel>Date of Birth</FormLabel>
-                <FormControl>
-                  <DatePicker />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
-
           <FormField
             control={form.control}
             name="branch"
@@ -170,7 +154,7 @@ const AddMemberForm = () => {
                   defaultValue={field.value}
                 >
                   <SelectTrigger className="w-full min-w-[180px]">
-                    <SelectValue placeholder="Branch" />
+                    <SelectValue placeholder="Select branch" />
                   </SelectTrigger>
                   <SelectContent>
                     {branches.map((branch, index) => (
@@ -188,7 +172,7 @@ const AddMemberForm = () => {
           <FormField
             control={form.control}
             name="role"
-            render={({ field }) => {
+            render={({ field }) => (
               <FormItem className="grid grid-cols-[120px_1fr] gap-2">
                 <FormLabel>Role</FormLabel>
                 <Select
@@ -196,18 +180,19 @@ const AddMemberForm = () => {
                   defaultValue={field.value}
                 >
                   <SelectTrigger className="w-full min-w-[180px]">
-                    <SelectValue placeholder="Branch" />
+                    <SelectValue placeholder="Select role" />
                   </SelectTrigger>
                   <SelectContent>
-                    {branches.map((branch, index) => (
-                      <SelectItem key={index} value={branch.name}>
-                        {branch.name}
+                    {roles.map((role, index) => (
+                      <SelectItem key={index} value={role.value}>
+                        {role.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-              </FormItem>;
-            }}
+                <FormMessage />
+              </FormItem>
+            )}
           />
 
           <Button type="submit" className="mt-4" disabled={isPending}>
