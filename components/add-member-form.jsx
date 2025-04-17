@@ -18,7 +18,6 @@ import { branches, roles } from "@/lib/data";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -109,7 +108,7 @@ const AddMemberForm = () => {
                 <FormLabel>Full name</FormLabel>
                 <FormControl>
                   <Input
-                    className="text-sm"
+                    className="text-sm w-full min-w-[180px]"
                     placeholder="Enter fullname"
                     {...field}
                   />
@@ -128,7 +127,7 @@ const AddMemberForm = () => {
                 <FormControl>
                   <Input
                     type="email"
-                    className="text-sm"
+                    className="text-sm w-full min-w-[180px]"
                     placeholder="Enter email"
                     {...field}
                   />
